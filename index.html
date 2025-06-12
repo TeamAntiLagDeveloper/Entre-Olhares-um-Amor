@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8" />
   <title>Entre Olhares, um Amor.</title>
   <style>
@@ -440,19 +441,26 @@ body {
 
     .leque-container {
       position: relative;
-      width: 800px; /* largura maior para espaçamento total */
+      min-height: 55vh; /* ocupa toda a altura da tela */
       height: 300px;
       display: flex;
       justify-content: center;
       align-items: center;
+      width: 100%;
+      max-width: 800px;
+      padding: 0 10px;
     }
+
+body, html {
+  overflow-x: hidden;
+}
 
     .cartao {
       position: absolute;
-      top: 16%;
-      left: 44%;
-      width: 180px;
-      height: 260px;
+      top: 9%;
+      left: 48%;
+      width: 100px;
+      height: 180px;
       border-radius: 15px;
       overflow: hidden;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
@@ -469,17 +477,17 @@ body {
 
     /* Leque espaçado */
     .cartao:nth-child(1) {
-      transform: translateX(-250px) rotate(-25deg);
+      transform: translateX(-190px) rotate(-25deg);
       z-index: 1;
     }
 
     .cartao:nth-child(2) {
-      transform: translateX(-170px) rotate(-15deg);
+      transform: translateX(-140px) rotate(-15deg);
       z-index: 2;
     }
 
     .cartao:nth-child(3) {
-      transform: translateX(-90px) rotate(-5deg);
+      transform: translateX(-70px) rotate(-5deg);
       z-index: 3;
     }
 
@@ -489,12 +497,12 @@ body {
     }
 
     .cartao:nth-child(5) {
-      transform: translateX(90px) rotate(15deg);
+      transform: translateX(70px) rotate(15deg);
       z-index: 5;
     }
 
     .cartao:nth-child(6) {
-      transform: translateX(170px) rotate(25deg);
+      transform: translateX(120px) rotate(25deg);
       z-index: 6;
     }
 
