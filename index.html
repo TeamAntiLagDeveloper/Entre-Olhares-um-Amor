@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Entre Olhares, um Amor.</title>
+  <style>
+    * {
+
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom, #6a0dd6 0%, #4d008c 100%);
+      color: white;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    header {
+      font-weight: bold;
+      padding: 10px 0;
+      font-size: 1.2em;
+      user-select: none;
+    }
+
+    .album-cover {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 20px;
+      margin: 15px 0;
+      user-select: none;
+    }
+
+    .song-title {
+      font-size: 1.3em;
+      font-weight: 600;
+      margin-top: 15px;
+      user-select: none;
+    }
+
+    .artist {
+      font-size: 1em;
+      color: #d1cde0;
+      margin-bottom: 10px;
+      user-select: none;
+    }
+
+    .progress-container {
+      width: 90%;
+      max-width: 350px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85em;
+      color: #ccc;
+      user-select: none;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: #7a66a1;
+      border-radius: 2px;
+      margin: 0 10px;
+      position: relative;
+    }
+
+    .progress {
+      width: 0%;
+      height: 100%;
+      background: #b5a7d8;
+      border-radius: 2px;
+    }
+
+    .controls svg {
+      fill: white;
+      width: 26px;
+      height: 26px;
+    }
+
+    .controls .play-btn {
+      background: #eae6fa;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      color: #4d008c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: none;
+      transition: background-color 0.2s ease;
+    }
+
+    .controls .play-btn:hover {
+      background-color: #d0c6e9;
+    }
+
+    .controls .play-btn svg {
+      fill: #4d008c;
+      width: 30px;
+      height: 30px;
+    }
+
+    audio {
+      display: none;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #1e1e1e;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #2c2c2c;
+      border-radius: 20px;
+      overflow: hidden;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      position: relative;
+      margin-top: 40px;
+    }
+
+    .top-image-container {
+      position: relative;
+    }
+
+    .top-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .label-overlay {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 13px;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .content {
+      padding: 20px;
+    }
+
+    .title {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .subtitle {
+      color: #ccc;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    .counter {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .counter-item {
+      width: 33.33%;
+      margin-bottom: 15px;
+    }
+
+    .counter-item strong {
+      display: block;
+      font-size: 22px;
+    }
+
+    .counter-item span {
+      font-size: 13px;
+      color: #aaa;
+    }
+
+    .special-message-container {
+      margin-top: 30px;
+      background-color: #3b82f6;
+      color: white;
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 360px;
+      width: 90%;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .special-message-container h3 {
+      margin-top: 02;
+      font-size: 18px;
+      font-weight: bold;
+      width: 100%;
+      margin-top: 30px;
+    }
+
+    .show-button {
+      margin-top: 15px;
+      background-color: white;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .fullscreen-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .fullscreen-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .fullscreen-message {
+      background-color: #3b82f6;
+      color: white;
+      padding: 40px 30px;
+      border-radius: 20px;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      position: relative;
+      animation: fadeIn 0.4s ease;
+      white-space: pre-wrap;
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 26px;
+      color: white;
+      cursor: pointer;
+    }
+
+.message-preview {
+  position: relative;
+  max-height: 120px; /* altura máxima visível da mensagem */
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+}
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+.hidden {
+  display: none !important;
+}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to bottom, #6a0dd6 0%, #0C0C0C 50%);
+  color: white;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+    header {
+      font-weight: bold;
+      padding: 10px 0;
+      font-size: 1.2em;
+    }
+
+    .album-cover {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 20px;
+      margin: 15px 0;
+    }
+
+.play-btn {
+  background: #1DB954;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.play-btn:hover {
+  background: #1ed760;
+}
+
+.play-btn svg {
+  fill: #ffffff;
+  width: 28px;
+  height: 28px;
+}
+    .song-title {
+      font-size: 1.3em;
+      font-weight: 600;
+      margin-top: 15px;
+    }
+
+    .artist {
+      font-size: 1em;
+      color: #d1cde0;
+      margin-bottom: 10px;
+    }
+
+    .progress-container {
+      width: 90%;
+      max-width: 350px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85em;
+      color: #ccc;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: #7a66a1;
+      border-radius: 2px;
+      margin: 0 10px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .progress {
+      width: 0%;
+      height: 100%;
+      background: #b5a7d8;
+      border-radius: 2px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 25px;
+      margin: 25px 0;
+    }
+
+    .controls button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease;
+    }
+
+    .controls button:hover {
+      transform: scale(1.1);
+    }
+
+    .controls svg {
+      fill: white;
+      width: 26px;
+      height: 26px;
+    }
+
+    .controls .play-btn {
+      background: #eae6fa;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      color: #4d008c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .controls .play-btn svg {
+      fill: #4d008c;
+      width: 30px;
+      height: 30px;
+    }
+
+    audio {
+      display: none;
+    }
+
+    .leque-container {
+      position: relative;
+  min-height: 55vh; /* ocupa toda a altura da tela */
+      width: 800px; /* largura maior para espaçamento total */
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .cartao {
+      position: absolute;
+      top: 16%;
+      left: 44%;
+      width: 180px;
+      height: 260px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      transition: transform 0.4s ease, z-index 0.4s;
+      cursor: pointer;
+      transform-origin: center center;
+    }
+
+    .cartao img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Leque espaçado */
+    .cartao:nth-child(1) {
+      transform: translateX(-250px) rotate(-25deg);
+      z-index: 1;
+    }
+
+    .cartao:nth-child(2) {
+      transform: translateX(-170px) rotate(-15deg);
+      z-index: 2;
+    }
+
+    .cartao:nth-child(3) {
+      transform: translateX(-90px) rotate(-5deg);
+      z-index: 3;
+    }
+
+    .cartao:nth-child(4) {
+      transform: translateX(0px) rotate(5deg);
+      z-index: 4;
+    }
+
+    .cartao:nth-child(5) {
+      transform: translateX(90px) rotate(15deg);
+      z-index: 5;
+    }
+
+    .cartao:nth-child(6) {
+      transform: translateX(170px) rotate(25deg);
+      z-index: 6;
+    }
+
+    /* Ao clicar */
+    .cartao.ativo {
+      transform: translateX(var(--original-x)) rotate(0deg) scale(1.2);
+      z-index: 999;
+    }
+
+@media (max-width: 768px) {
+  header {
+    font-size: 1em;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .song-title {
+    font-size: 1.1em;
+  }
+
+  .artist {
+    font-size: 0.9em;
+  }
+
+  .special-message-container h3,
+  .fullscreen-message {
+    font-size: 15px;
+  }
+
+  .counter-item strong {
+    font-size: 20px;
+  }
+
+  .counter-item span {
+    font-size: 12px;
+  }
+}
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideIn 1s ease forwards;
+}
+
+.song-title em {
+  font-style: italic;
+  color: #ccc; /* ou outra cor suave */
+}
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+  </style>
+</head>
+<body>
+  <header>Entre Olhares, um Amor.</header>
+  <img src="imagens/capa.jpg" alt="Capa do casal" class="album-cover">
+  <div class="song-title">O Amor Coloriu - <em>Luan Santana</em></div>
+  <div class="artist">Luan Santana</div>
+
+  <div class="progress-container">
+    <span id="start-time">0:00</span>
+    <div class="progress-bar" onclick="setProgress(event)">
+      <div class="progress" id="progress"></div>
+    </div>
+    <span id="end-time">0:00</span>
+  </div>
+
+  <div class="controls">
+    <button title="Anterior" onclick="rewind10()">
+      <svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6L11 18zm1-12v12l8.5-6L12 6z"/></svg>
+    </button>
+    <button class="play-btn" onclick="togglePlay()" title="Play/Pause">
+      <svg id="playPauseIcon" viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z" />
+      </svg>
+    </button>
+    <button title="Avançar" onclick="forward10()">
+      <svg viewBox="0 0 24 24"><path d="M13 6v12l8.5-6L13 6zm-1 12V6L3.5 12 12 18z"/></svg>
+    </button>
+  </div>
+
+  <audio id="audio" src="imagens/musica.mp3" autoplay></audio>
+
+  <script>
+    const audio = document.getElementById('audio');
+    const playPauseIcon = document.getElementById('playPauseIcon');
+    const progress = document.getElementById('progress');
+    const startTime = document.getElementById('start-time');
+    const endTime = document.getElementById('end-time');
+    let isPlaying = false;
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    function togglePlay() {
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+
+    function rewind10() {
+      audio.currentTime = Math.max(0, audio.currentTime - 10);
+    }
+
+    function forward10() {
+      audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
+    }
+
+    function setProgress(e) {
+      const width = this.clientWidth;
+      const clickX = e.offsetX;
+      const duration = audio.duration;
+      audio.currentTime = (clickX / width) * duration;
+    }
+
+    document.querySelector('.progress-bar').addEventListener('click', setProgress);
+
+    audio.addEventListener('play', () => {
+      isPlaying = true;
+      playPauseIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+    });
+
+    audio.addEventListener('pause', () => {
+      isPlaying = false;
+      playPauseIcon.innerHTML = '<path d="M8 5v14l11-7z" />';
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      const currentTime = audio.currentTime;
+      const duration = audio.duration || 0;
+      const progressPercent = (currentTime / duration) * 100;
+      progress.style.width = `${progressPercent}%`;
+      startTime.textContent = formatTime(currentTime);
+      endTime.textContent = formatTime(duration);
+    });
+
+    // Reproduz automaticamente ao carregar (alguns navegadores exigem interação do usuário)
+    window.addEventListener('DOMContentLoaded', () => {
+      audio.play().catch(() => {
+        // Pode falhar se autoplay com som não for permitido
+        console.log("Autoplay bloqueado pelo navegador");
+      });
+    });
+  </script>
+  <div class="container">
+    <div class="top-image-container">
+      <span class="label-overlay">Sobre o casal</span>
+      <img src="imagens/capa2.jpg" alt="Casal" class="top-image" />
+    </div>
+    <div class="content">
+      <div class="title">Ana Fux e Emanuel Cardoso</div>
+      <div class="subtitle">Juntos desde 08/04/2025</div>
+      <div class="counter">
+        <div class="counter-item"><strong id="years">0</strong><span>Anos</span></div>
+        <div class="counter-item"><strong id="months">0</strong><span>Meses</span></div>
+        <div class="counter-item"><strong id="days">0</strong><span>Dias</span></div>
+        <div class="counter-item"><strong id="hours">0</strong><span>Horas</span></div>
+        <div class="counter-item"><strong id="minutes">0</strong><span>Minutos</span></div>
+        <div class="counter-item"><strong id="seconds">0</strong><span>Segundos</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENSAGEM ESPECIAL -->
+<div class="special-message-container">
+  <h3>Mensagem especial</h3>
+  <div class="message-preview">
+    <p><strong>Tudo começou meio do nada,</strong><br>
+    uma foto tirada, sem eu nem ver,<br>
+    mandada pra minha amiga,<br>
+    como quem não quer nada,<br>
+    mas já querendo me conhecer.</p>
+  </div>
+  <button class="show-button" onclick="abrirMensagem()">Mostrar Mensagem</button>
+</div>
+
+  <!-- TELA CHEIA -->
+  <div id="overlay" class="fullscreen-overlay">
+    <div class="fullscreen-message">
+      <button class="close-button" onclick="fecharMensagem()">×</button>
+      Tudo começou meio do nada,
+      uma foto tirada, sem eu nem ver,
+      mandada pra minha amiga,
+      como quem não quer nada,
+      mas já querendo me conhecer.
+
+      Foi só um clique, só um olhar,
+      mas tinha alguma coisa ali,
+      um negócio no ar,
+      um “e se…” que ficou martelando
+      dentro de mim — e dentro de ti.
+
+      Depois vieram os olhares,
+      cheios de intenção,
+      e cada vez que a gente se via,
+      era como se o mundo parasse
+      só pra dar espaço pro coração.
+
+      A gente se achou no improvável,
+      se gostou no detalhe,
+      se escolheu no sentimento.
+
+      E olha só...
+      de uma foto aleatória,
+      virou amor de verdade,
+      desses que a gente sente
+      no peito, na pele, no tempo.
+    </div>
+  </div>
+
+  <script>
+    const startDate = new Date("2025-04-08T09:00:00");
+
+    function updateCounter() {
+      const now = new Date();
+      let delta = Math.floor((now - startDate) / 1000);
+
+      const years = Math.floor(delta / (365.25 * 24 * 3600));
+      delta -= years * 365.25 * 24 * 3600;
+
+      const months = Math.floor(delta / (30.44 * 24 * 3600));
+      delta -= months * 30.44 * 24 * 3600;
+
+      const days = Math.floor(delta / (24 * 3600));
+      delta -= days * 24 * 3600;
+
+      const hours = Math.floor(delta / 3600);
+      delta -= hours * 3600;
+
+      const minutes = Math.floor(delta / 60);
+      const seconds = delta % 60;
+
+      document.getElementById("years").textContent = years;
+      document.getElementById("months").textContent = months;
+      document.getElementById("days").textContent = days;
+      document.getElementById("hours").textContent = hours;
+      document.getElementById("minutes").textContent = minutes;
+      document.getElementById("seconds").textContent = seconds;
+    }
+
+    updateCounter();
+    setInterval(updateCounter, 1000);
+
+    function abrirMensagem() {
+      document.getElementById("overlay").classList.add("active");
+    }
+
+    function fecharMensagem() {
+      document.getElementById("overlay").classList.remove("active");
+    }
+  </script>
+</head>
+<body>
+  <div class="leque-container">
+    <div class="cartao" style="--original-x: -250px;"><img src="imagens\foto1.jpg" alt="Foto 1" /></div>
+    <div class="cartao" style="--original-x: -170px;"><img src="imagens\foto2.jpg" alt="Foto 2" /></div>
+    <div class="cartao" style="--original-x: -90px;"><img src="imagens\foto3.jpg" alt="Foto 3" /></div>
+    <div class="cartao" style="--original-x: 0px;"><img src="imagens\foto4.jpg" alt="Foto 4" /></div>
+    <div class="cartao" style="--original-x: 90px;"><img src="imagens\foto5.jpg" alt="Foto 5" /></div>
+    <div class="cartao" style="--original-x: 170px;"><img src="imagens\foto6.jpg" alt="Foto 6" /></div>
+  </div>
+
+  <script>
+    const cartoes = document.querySelectorAll('.cartao');
+
+    cartoes.forEach(cartao => {
+      cartao.addEventListener('click', () => {
+        if (cartao.classList.contains('ativo')) {
+          cartao.classList.remove('ativo');
+        } else {
+          cartoes.forEach(c => c.classList.remove('ativo'));
+          cartao.classList.add('ativo');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
