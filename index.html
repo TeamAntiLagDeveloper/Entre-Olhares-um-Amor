@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8" />
   <title>Entre Olhares, um Amor.</title>
   <style>
@@ -12,6 +13,10 @@
     }
 
     body {
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
       font-family: 'Arial', sans-serif;
       background: linear-gradient(to bottom, #6a0dd6 0%, #4d008c 100%);
       color: white;
@@ -21,8 +26,12 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 20px;
-    }
+  background-size: cover;        /* cobre toda a tela */
+  background-position: center;   /* centraliza a imagem */
+  background-repeat: no-repeat;
+  min-height: 100vh;             /* garante altura total da viewport */
+  z-index: -1;          /* joga pro fundo */
+}
 
     header {
       font-weight: bold;
@@ -441,7 +450,10 @@ body {
     .leque-container {
       position: relative;
   min-height: 55vh; /* ocupa toda a altura da tela */
-      width: 800px; /* largura maior para espaçamento total */
+        width: 100%;
+  max-width: 800px;
+  padding: 0 10px;
+  flex-wrap: wrap;
       height: 300px;
       display: flex;
       justify-content: center;
@@ -559,6 +571,7 @@ body {
   </style>
 </head>
 <body>
+  <div class="zoom-wrapper">
   <header>Entre Olhares, um Amor.</header>
   <img src="imagens/capa.jpg" alt="Capa do casal" class="album-cover">
   <div class="song-title">O Amor Coloriu - <em>Luan Santana</em></div>
